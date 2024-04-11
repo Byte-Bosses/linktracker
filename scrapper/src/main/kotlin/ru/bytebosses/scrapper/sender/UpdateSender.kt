@@ -1,8 +1,7 @@
 package ru.bytebosses.scrapper.sender
 
-import ru.bytebosses.scrapper.model.Chat
-import ru.bytebosses.scrapper.provider.api.LinkUpdateInformation
+import ru.bytebosses.scrapper.dto.request.bot.LinkUpdate
 
 interface UpdateSender {
-    fun sendUpdate(update: LinkUpdateInformation, tgChats: List<Chat>)
+    fun sendUpdate(update: LinkUpdate)
 }

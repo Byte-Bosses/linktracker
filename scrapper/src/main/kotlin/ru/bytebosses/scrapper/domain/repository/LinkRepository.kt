@@ -6,7 +6,7 @@ import ru.bytebosses.scrapper.domain.entity.LinkEntity
 import java.time.OffsetDateTime
 import java.util.*
 
-interface LinkRepository : JpaRepository<LinkEntity, Int> {
+interface LinkRepository : JpaRepository<LinkEntity, Long> {
 
     fun findByUrl(url: String): Optional<LinkEntity>
 
