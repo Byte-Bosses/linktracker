@@ -9,4 +9,16 @@ data class Link(
     var lastUpdateTime: OffsetDateTime,
     var lastCheckTime: OffsetDateTime,
     var metaInfo: Map<String, String>
-)
+) {
+
+    fun updated(lastUpdateTime: OffsetDateTime, metaInfo: Map<String, String>): Link {
+        return justChecked().apply {
+            this.lastUpdateTime = lastUpdateTime
+            this.metaInfo = metaInfo
+        }
+    }
+
+    fun justChecked(): Link = apply {
+        lastCheckTime = OffsetDateTime.now()
+    }
+}

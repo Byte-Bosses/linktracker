@@ -3,6 +3,10 @@ app:
     enable: true
     interval: 10s
     force-check-delay: 10s
+    initial-delay: 10s
+    limit: 10
+  kafka-topics:
+    link-updates: link-updates
 
 spring:
   application:
