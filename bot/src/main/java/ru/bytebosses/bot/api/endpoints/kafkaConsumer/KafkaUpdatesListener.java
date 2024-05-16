@@ -12,6 +12,7 @@ import ru.bytebosses.bot.api.service.LinkUpdatesService;
 /**
  * KafkaUpdatesListener class is used for asynchronous receiving of updates on links from scrapper module
  * **/
+
 @Component
 @Slf4j
 @RequiredArgsConstructor

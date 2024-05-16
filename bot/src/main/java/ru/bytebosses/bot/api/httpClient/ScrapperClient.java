@@ -16,17 +16,14 @@ import ru.bytebosses.bot.models.Chat;
 import ru.bytebosses.bot.models.RetryRule;
 import ru.bytebosses.bot.util.RetryFactory;
 
-
 /**
  * ScrapperClient class is used for sending requests by HTTP protocol to scrapper module
- * **/
-@Log4j2
-public class ScrapperClient {
+ **/
+@Log4j2 public class ScrapperClient {
     private final static String BASE_PORT = "8080";
     private final static String BASE_URL = "http://localhost:" + BASE_PORT;
     private final static String PATH_FOR_CHAT_CONTROLLER = "/tg-chat/";
     private final static String PATH_FOR_LINKS_CONTROLLER = "/links/";
-    private final WebClient webClient;
     private final static ApiErrorResponse EXHAUSTED_RETRY = new ApiErrorResponse(
         "по каким-то причинам сервер временно недоступен, повторите запрос позже",
         HttpStatus.REQUEST_TIMEOUT.toString(),
@@ -34,44 +31,37 @@ public class ScrapperClient {
         "",
         List.of()
     );
+    private final WebClient webClient;
 
     public ScrapperClient(RetryRule rule) {
-        this.webClient = WebClient
-            .builder()
-            .filter(RetryFactory.createFilter(rule))
-            .defaultStatusHandler(httpStatusCode -> true, clientResponse -> Mono.empty())
-            .baseUrl(BASE_URL)
-            .build();
+        this.webClient = WebClient.builder().filter(RetryFactory.createFilter(rule))
+            .defaultStatusHandler(httpStatusCode -> true, clientResponse -> Mono.empty()).baseUrl(BASE_URL).build();
     }
 
     public ScrapperClient(String baseUrl, RetryRule rule) {
-        this.webClient = WebClient
-            .builder()
-            .filter(RetryFactory.createFilter(rule))
-            .defaultStatusHandler(httpStatusCode -> true, clientResponse -> Mono.empty())
-            .baseUrl(baseUrl)
-            .build();
+        this.webClient = WebClient.builder().filter(RetryFactory.createFilter(rule))
+            .defaultStatusHandler(httpStatusCode -> true, clientResponse -> Mono.empty()).baseUrl(baseUrl).build();
     }
 
     /**
      * Register a chat by sending a POST request to the chat controller.
      *
-     * @param  chat  the chat object to be registered
-     * @return       a GenericResponse object representing the result of the registration.
-     *               In this case response filed is always null, but errorResponse field can be either empty or not.
+     * @param chat the chat object to be registered
+     * @return a GenericResponse object representing the result of the registration.
+     *     In this case response filed is always null, but errorResponse field can be either empty or not.
      */
     public GenericResponse<Void> registerChat(Chat chat) {
-        var clientResponse = webClient
-            .method(HttpMethod.POST)
-            .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
-            .exchangeToMono(response -> {
-                if (response.statusCode().is2xxSuccessful()) {
-                    return response.bodyToMono(Void.class);
-                }
-                return response.bodyToMono(ApiErrorResponse.class);
-            })
-            .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
-            .block();
+        var clientResponse =
+            webClient.method(HttpMethod.POST)
+                .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(Void.class);
+                    }
+                    return response.bodyToMono(ApiErrorResponse.class);
+                })
+                .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
+                .block();
         if (clientResponse == null) {
             return new GenericResponse<>(null, null);
         }
@@ -81,22 +71,22 @@ public class ScrapperClient {
     /**
      * Deletes a chat by sending a DELETE request to the server.
      *
-     * @param  chat  the chat object to be deleted
-     * @return       a GenericResponse object containing the result of the deletion.
-     *               In this case response filed is always null, but errorResponse field can be either empty or not.
+     * @param chat the chat object to be deleted
+     * @return a GenericResponse object containing the result of the deletion.
+     *     In this case response filed is always null, but errorResponse field can be either empty or not.
      */
     public GenericResponse<Void> deleteChat(Chat chat) {
-        var clientResponse = webClient
-            .method(HttpMethod.DELETE)
-            .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
-            .exchangeToMono(response -> {
-                if (response.statusCode().is2xxSuccessful()) {
-                    return response.bodyToMono(Void.class);
-                }
-                return response.bodyToMono(ApiErrorResponse.class);
-            })
-            .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
-            .block();
+        var clientResponse =
+            webClient.method(HttpMethod.DELETE)
+                .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(Void.class);
+                    }
+                    return response.bodyToMono(ApiErrorResponse.class);
+                })
+                .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
+                .block();
         if (clientResponse == null) {
             return new GenericResponse<>(null, null);
         }
@@ -106,21 +96,22 @@ public class ScrapperClient {
     /**
      * Retrieves a list of links for a given chat.
      *
-     * @param  chat      the chat for which to list links
-     * @return           a GenericResponse object containing either a list of links in case of success or an ApiErrorResponse in case of error
+     * @param chat the chat for which to list links
+     * @return a GenericResponse object containing either a list of links in case of success or
+     *     an ApiErrorResponse in case of error
      */
     public GenericResponse<ListLinksResponse> listLinks(Chat chat) {
-        var clientResponse = webClient
-            .method(HttpMethod.GET)
-            .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
-            .exchangeToMono(response -> {
-                if (response.statusCode().is2xxSuccessful()) {
-                    return response.bodyToMono(ListLinksResponse.class);
-                }
-                return response.bodyToMono(ApiErrorResponse.class);
-            })
-            .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
-            .block();
+        var clientResponse =
+            webClient.method(HttpMethod.GET)
+                .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(ListLinksResponse.class);
+                    }
+                    return response.bodyToMono(ApiErrorResponse.class);
+                })
+                .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
+                .block();
         if (clientResponse instanceof ListLinksResponse) {
             return new GenericResponse<>((ListLinksResponse) clientResponse, null);
         }
@@ -130,25 +121,26 @@ public class ScrapperClient {
     /**
      * Adds a link to tracking.
      *
-     * @param  chat            the Chat object related to the link
-     * @param  addLinkRequest  the request object containing the link to add
-     * @return                 a GenericResponse object with the corresponding response.
-     * In case of success the response field contains AddLinkToDatabaseResponse object with id and url of link and errorResponse is null.
-     * In case of error the response filed is null and errorResponse field contains ApiErrorResponse object
+     * @param chat           the Chat object related to the link
+     * @param addLinkRequest the request object containing the link to add
+     * @return a GenericResponse object with the corresponding response.
+     *     In case of success the response field contains AddLinkToDatabaseResponse object with id and url of link and
+     *     errorResponse is null. In case of error the response filed is null and errorResponse field contains
+     *     ApiErrorResponse object.
      */
     public GenericResponse<AddLinkToDatabaseResponse> addLinkToTracking(Chat chat, AddLinkRequest addLinkRequest) {
-        var clientResponse = webClient
-            .method(HttpMethod.POST)
-            .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
-            .bodyValue(addLinkRequest)
-            .exchangeToMono(response -> {
-                if (response.statusCode().is2xxSuccessful()) {
-                    return response.bodyToMono(AddLinkToDatabaseResponse.class);
-                }
-                return response.bodyToMono(ApiErrorResponse.class);
-            })
-            .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
-            .block();
+        var clientResponse =
+            webClient.method(HttpMethod.POST)
+                .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
+                .bodyValue(addLinkRequest)
+                .exchangeToMono(response -> {
+                    if (response.statusCode().is2xxSuccessful()) {
+                        return response.bodyToMono(AddLinkToDatabaseResponse.class);
+                    }
+                    return response.bodyToMono(ApiErrorResponse.class);
+                })
+                .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
+                .block();
         if (clientResponse instanceof AddLinkToDatabaseResponse) {
             return new GenericResponse<>((AddLinkToDatabaseResponse) clientResponse, null);
         }
@@ -158,18 +150,17 @@ public class ScrapperClient {
     /**
      * Removes a link from tracking.
      *
-     * @param  chat		the chat object
-     * @param  id		the id of the link to remove
-     * @return          a GenericResponse object with the corresponding response.
-     * In case of success the response field contains RemoveLinkFromDatabaseResponse object with id and url of link and errorResponse is null.
-     * In case of error the response filed is null and errorResponse field contains ApiErrorResponse object
+     * @param chat the chat object
+     * @param id   the id of the link to remove
+     * @return a GenericResponse object with the corresponding response.
+     *     In case of success the response field contains RemoveLinkFromDatabaseResponse object with id and url of link
+     *     and errorResponse is null. In case of error the response filed is null and errorResponse field contains
+     *     ApiErrorResponse object.
      */
     public GenericResponse<RemoveLinkFromDatabaseResponse> removeLinkFromTracking(
-        Chat chat,
-        long id
+        Chat chat, long id
     ) {
-        var clientResponse = webClient
-            .method(HttpMethod.DELETE)
+        var clientResponse = webClient.method(HttpMethod.DELETE)
             .uri(PATH_FOR_LINKS_CONTROLLER + chat.id() + "/" + id)
             .exchangeToMono(response -> {
                 if (response.statusCode().is2xxSuccessful()) {

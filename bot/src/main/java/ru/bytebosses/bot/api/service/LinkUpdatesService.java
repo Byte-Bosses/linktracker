@@ -12,7 +12,7 @@ import ru.bytebosses.bot.printerToChat.ChatResponser;
 
 /**
  * LinkUpdatesService class is used for notifying users on updates in tracked links
- * **/
+ **/
 @Service
 @Log4j2
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class LinkUpdatesService {
     /**
      * Notify users with a link update information.
      *
-     * @param  linkUpdate	the link update information to notify users about
+     * @param linkUpdate the link update information to notify users about
      */
     public void notifyUsers(LinkUpdate linkUpdate) {
         log.info("Notifying users...");
