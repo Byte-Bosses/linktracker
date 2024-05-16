@@ -9,7 +9,9 @@ import org.springframework.kafka.retrytopic.DltStrategy;
 import org.springframework.stereotype.Component;
 import ru.bytebosses.bot.api.dto.request.LinkUpdate;
 import ru.bytebosses.bot.api.service.LinkUpdatesService;
-
+/**
+ * KafkaUpdatesListener class is used for asynchronous receiving of updates on links from scrapper module
+ * **/
 @Component
 @Slf4j
 @RequiredArgsConstructor
