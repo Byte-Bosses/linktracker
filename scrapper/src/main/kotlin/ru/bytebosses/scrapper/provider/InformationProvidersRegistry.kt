@@ -1,5 +1,6 @@
-package ru.bytebosses.scrapper.provider.api
+package ru.bytebosses.scrapper.provider
 
+import ru.bytebosses.extension.api.InformationProvider
 import java.net.URI
 import java.util.*
 

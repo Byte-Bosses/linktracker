@@ -1,0 +1,2 @@
+!!ru.bytebosses.extension.github.GithubProviderConfiguration {apiUrl: 'https://api.github.com',
+  token: null}
