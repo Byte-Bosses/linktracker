@@ -22,6 +22,12 @@ public final class LinearRetryBackoffSpec extends Retry {
     private final Supplier<Scheduler> schedulerSupplier;
 
 
+    /**
+     * Creates a new LinearRetryBackoffSpec by filtering errors.
+     *
+     * @param  errorFilter  the Predicate to filter errors
+     * @return              a LinearRetryBackoffSpec with filtered errors
+     */
     public LinearRetryBackoffSpec filter(Predicate<Throwable> errorFilter) {
         return new LinearRetryBackoffSpec(
             this.minBackoff,
@@ -33,6 +39,13 @@ public final class LinearRetryBackoffSpec extends Retry {
         );
     }
 
+    /**
+     * Generates a LinearRetryBackoffSpec with the given parameters.
+     *
+     * @param  maxAttempts  the maximum number of retry attempts
+     * @param  minDelay     the minimum delay duration
+     * @return              a new LinearRetryBackoffSpec instance
+     */
     public static LinearRetryBackoffSpec linear(int maxAttempts, Duration minDelay) {
         return new LinearRetryBackoffSpec(
             minDelay,
@@ -44,6 +57,12 @@ public final class LinearRetryBackoffSpec extends Retry {
         );
     }
 
+    /**
+     * Generates a new LinearRetryBackoffSpec with the specified multiplier.
+     *
+     * @param  multiplier   the multiplier value to set
+     * @return              a new LinearRetryBackoffSpec with updated multiplier
+     */
     public LinearRetryBackoffSpec multiplier(Double multiplier) {
         return new LinearRetryBackoffSpec(
             this.minBackoff,
@@ -55,6 +74,12 @@ public final class LinearRetryBackoffSpec extends Retry {
         );
     }
 
+    /**
+     * Generate a companion Publisher based on retry signals.
+     *
+     * @param  retrySignals   the Flux of RetrySignal instances
+     * @return                a Publisher of unknown type
+     */
     @Override
     public Publisher<?> generateCompanion(Flux<RetrySignal> retrySignals) {
         return Flux.deferContextual(cv ->

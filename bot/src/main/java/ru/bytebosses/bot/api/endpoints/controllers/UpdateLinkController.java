@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.bytebosses.bot.api.dto.request.LinkUpdate;
 import ru.bytebosses.bot.api.endpoints.controllers.rateLimit.RateLimit;
 import ru.bytebosses.bot.api.service.LinkUpdatesService;
-
+/**
+ * UpdateLinkController class is used for receiving updates on links from scrapper module
+ * **/
 @Log4j2
 @RestController
 @RequestMapping(path = "/updates")

@@ -44,6 +44,12 @@ public class RetryFactory {
         )
     );
 
+    /**
+     * Creates an ExchangeFilterFunction with a retry rule.
+     *
+     * @param  retry   the retry rule to apply
+     * @return        the created ExchangeFilterFunction
+     */
     public static ExchangeFilterFunction createFilter(RetryRule retry) {
         return (response, next) -> next.exchange(response)
             .flatMap(clientResponse -> {
@@ -55,6 +61,13 @@ public class RetryFactory {
             }).retryWhen(retry.rule());
     }
 
+    /**
+     * Creates a RetryRule based on the provided RetrySpecification list and client.
+     *
+     * @param  specificationList  the list of RetrySpecifications to create the rule from
+     * @param  client             the client for which the rule is being created
+     * @return                    the created RetryRule based on the specifications and client
+     */
     public static RetryRule createRule(List<RetrySpecification> specificationList, Client client) {
         return specificationList.stream()
             .filter(a -> a.client().equals(client))

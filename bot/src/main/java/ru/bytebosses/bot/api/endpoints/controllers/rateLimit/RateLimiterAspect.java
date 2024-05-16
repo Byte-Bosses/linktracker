@@ -35,6 +35,12 @@ public class RateLimiterAspect {
         this.tokensPerPeriod = tokensPerPeriod;
     }
 
+    /**
+     * Rate limit check based on IP address for the given joinPoint and consumes token if could.
+     *
+     * @param  joinPoint  the join point for the advice
+     * @throws TooManyRequestsException if limit is exceeded
+     */
     @Before("@annotation(RateLimit)")
     public void rateLimitCheck(JoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
