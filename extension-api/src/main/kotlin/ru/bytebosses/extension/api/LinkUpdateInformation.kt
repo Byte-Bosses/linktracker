@@ -1,4 +1,4 @@
-package ru.bytebosses.scrapper.provider.api
+package ru.bytebosses.extension.api
 
 import java.net.URI
 import java.time.OffsetDateTime

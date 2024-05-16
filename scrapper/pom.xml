@@ -19,6 +19,18 @@
 
     <dependencies>
 
+        <!-- Database--><!-- Extension -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.bytebosses</groupId>
+            <artifactId>extension-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- Kotlin -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

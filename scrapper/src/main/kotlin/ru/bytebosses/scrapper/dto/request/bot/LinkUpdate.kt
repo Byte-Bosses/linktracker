@@ -1,6 +1,6 @@
 package ru.bytebosses.scrapper.dto.request.bot
 
-import ru.bytebosses.scrapper.provider.api.LinkUpdateInformation
+import ru.bytebosses.extension.api.LinkUpdateInformation
 
 data class LinkUpdate(
     val linkUpdateInformation: LinkUpdateInformation,

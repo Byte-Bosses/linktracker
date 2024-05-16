@@ -7,6 +7,14 @@ app:
 spring:
   application:
     name: scrapper
+  datasource:
+    url: jdbc:postgresql://${POSTGRESQL_HOST:localhost:5432}/scrapper
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
 
 server:
   port: 8080

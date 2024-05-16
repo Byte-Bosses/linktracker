@@ -31,10 +31,6 @@ class LinkEntity (
     var metaInfo: Map<String, String> = mutableMapOf(),
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "links")
-    @JoinTable(
-        name = "chats",
-        joinColumns = [JoinColumn(name = "link_id", referencedColumnName = "id")],
-    )
     var chats: MutableSet<ChatEntity> = mutableSetOf(),
 ) {
 
