@@ -1,6 +1,5 @@
 package ru.bytebosses.bot.api.endpoints.controllers.rateLimit;
 
-import ru.bytebosses.bot.api.exceptions.TooManyRequestsException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
 import java.util.Map;
@@ -11,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
+import ru.bytebosses.bot.api.exceptions.TooManyRequestsException;
 
 @Aspect
 @Validated

@@ -1,5 +1,8 @@
 package ru.bytebosses.bot.util;
 
+import java.time.Duration;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
@@ -7,10 +10,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 import reactor.util.retry.Retry;
-
-import java.time.Duration;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public final class LinearRetryBackoffSpec extends Retry {

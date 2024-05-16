@@ -1,14 +1,14 @@
 package ru.bytebosses.bot.api.endpoints.controllers;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import ru.bytebosses.bot.api.dto.response.ApiErrorResponse;
-import ru.bytebosses.bot.api.exceptions.IncorrectRequestParametersException;
-import ru.bytebosses.bot.api.exceptions.TooManyRequestsException;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.bytebosses.bot.api.dto.response.ApiErrorResponse;
+import ru.bytebosses.bot.api.exceptions.IncorrectRequestParametersException;
+import ru.bytebosses.bot.api.exceptions.TooManyRequestsException;
 
 @RestControllerAdvice
 public class ControllerAdvice {

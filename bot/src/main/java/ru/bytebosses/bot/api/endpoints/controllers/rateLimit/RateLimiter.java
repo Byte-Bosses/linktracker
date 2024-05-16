@@ -1,7 +1,6 @@
 package ru.bytebosses.bot.api.endpoints.controllers.rateLimit;
 
 import io.github.bucket4j.Bucket;
-
 import java.time.Duration;
 
 public class RateLimiter {

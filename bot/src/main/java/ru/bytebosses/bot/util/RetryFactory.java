@@ -1,9 +1,5 @@
 package ru.bytebosses.bot.util;
 
-import ru.bytebosses.bot.configuration.RetryConfiguration.Client;
-import ru.bytebosses.bot.configuration.RetryConfiguration.RetryMode;
-import ru.bytebosses.bot.configuration.RetryConfiguration.RetrySpecification;
-import ru.bytebosses.bot.models.RetryRule;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +8,10 @@ import lombok.experimental.UtilityClass;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.RetryBackoffSpec;
+import ru.bytebosses.bot.configuration.RetryConfiguration.Client;
+import ru.bytebosses.bot.configuration.RetryConfiguration.RetryMode;
+import ru.bytebosses.bot.configuration.RetryConfiguration.RetrySpecification;
+import ru.bytebosses.bot.models.RetryRule;
 
 @UtilityClass
 public class RetryFactory {

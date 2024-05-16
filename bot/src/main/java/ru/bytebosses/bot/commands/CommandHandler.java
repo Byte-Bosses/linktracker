@@ -2,7 +2,6 @@ package ru.bytebosses.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-
 import java.util.Properties;
 
 public abstract class CommandHandler {

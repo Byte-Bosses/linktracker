@@ -1,5 +1,11 @@
 package ru.bytebosses.bot.api.httpClient;
 
+import java.util.List;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import ru.bytebosses.bot.api.dto.request.AddLinkRequest;
 import ru.bytebosses.bot.api.dto.request.RemoveLinkRequest;
 import ru.bytebosses.bot.api.dto.response.ApiErrorResponse;
@@ -10,12 +16,6 @@ import ru.bytebosses.bot.models.ListLinksResponse;
 import ru.bytebosses.bot.models.RemoveLinkFromDatabaseResponse;
 import ru.bytebosses.bot.models.RetryRule;
 import ru.bytebosses.bot.util.RetryFactory;
-import java.util.List;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @Log4j2
 public class ScrapperClient {

@@ -1,18 +1,17 @@
 package ru.bytebosses.bot.api.endpoints.controllers;
 
-import ru.bytebosses.bot.api.dto.request.LinkUpdate;
-import ru.bytebosses.bot.api.endpoints.controllers.rateLimit.RateLimit;
-import ru.bytebosses.bot.api.service.LinkUpdatesService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bytebosses.bot.api.dto.request.LinkUpdate;
+import ru.bytebosses.bot.api.endpoints.controllers.rateLimit.RateLimit;
+import ru.bytebosses.bot.api.service.LinkUpdatesService;
 
 @Log4j2
 @RestController
