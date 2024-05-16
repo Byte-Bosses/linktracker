@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.bytebosses.bot.api.dto.request.AddLinkRequest;
-import ru.bytebosses.bot.api.dto.request.RemoveLinkRequest;
+import ru.bytebosses.bot.api.dto.response.AddLinkToDatabaseResponse;
 import ru.bytebosses.bot.api.dto.response.ApiErrorResponse;
-import ru.bytebosses.bot.models.AddLinkToDatabaseResponse;
+import ru.bytebosses.bot.api.dto.response.GenericResponse;
+import ru.bytebosses.bot.api.dto.response.ListLinksResponse;
+import ru.bytebosses.bot.api.dto.response.RemoveLinkFromDatabaseResponse;
 import ru.bytebosses.bot.models.Chat;
-import ru.bytebosses.bot.models.GenericResponse;
-import ru.bytebosses.bot.models.ListLinksResponse;
-import ru.bytebosses.bot.models.RemoveLinkFromDatabaseResponse;
 import ru.bytebosses.bot.models.RetryRule;
 import ru.bytebosses.bot.util.RetryFactory;
 
@@ -42,7 +41,12 @@ public class ScrapperClient {
     }
 
     public ScrapperClient(String baseUrl, RetryRule rule) {
-        this.webClient = WebClient.create(baseUrl);
+        this.webClient = WebClient
+            .builder()
+            .filter(RetryFactory.createFilter(rule))
+            .defaultStatusHandler(httpStatusCode -> true, clientResponse -> Mono.empty())
+            .baseUrl(baseUrl)
+            .build();
     }
 
 
@@ -121,12 +125,11 @@ public class ScrapperClient {
 
     public GenericResponse<RemoveLinkFromDatabaseResponse> removeLinkFromTracking(
         Chat chat,
-        RemoveLinkRequest removeLinkRequest
+        long id
     ) {
         var clientResponse = webClient
             .method(HttpMethod.DELETE)
-            .uri(PATH_FOR_LINKS_CONTROLLER + chat.id() + "/" + removeLinkRequest.linkId())
-            .bodyValue(removeLinkRequest)
+            .uri(PATH_FOR_LINKS_CONTROLLER + chat.id() + "/" + id)
             .exchangeToMono(response -> {
                 if (response.statusCode().is2xxSuccessful()) {
                     return response.bodyToMono(RemoveLinkFromDatabaseResponse.class);
