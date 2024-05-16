@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.models;
+package ru.bytebosses.bot.api.dto.response;
 
 import ru.bytebosses.bot.api.dto.response.ApiErrorResponse;
 
