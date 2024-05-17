@@ -1,9 +1,9 @@
-package ru.bytebosses.scrapper.controller
+package ru.bytebosses.scrapper.api.link.controller
 
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
-import ru.bytebosses.scrapper.dto.request.AddLinkRequest
-import ru.bytebosses.scrapper.dto.response.LinkResponse
+import ru.bytebosses.scrapper.api.common.dto.request.AddLinkRequest
+import ru.bytebosses.scrapper.api.link.dto.LinkResponse
 import ru.bytebosses.scrapper.service.LinkService
 
 @RestController

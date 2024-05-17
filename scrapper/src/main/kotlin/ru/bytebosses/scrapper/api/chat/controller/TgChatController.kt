@@ -1,4 +1,4 @@
-package ru.bytebosses.scrapper.controller
+package ru.bytebosses.scrapper.api.chat.controller
 
 import org.springframework.web.bind.annotation.*
 import ru.bytebosses.scrapper.service.TgChatService

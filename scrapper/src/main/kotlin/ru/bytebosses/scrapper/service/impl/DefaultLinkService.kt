@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service
 import ru.bytebosses.scrapper.domain.entity.LinkEntity
 import ru.bytebosses.scrapper.domain.repository.ChatRepository
 import ru.bytebosses.scrapper.domain.repository.LinkRepository
-import ru.bytebosses.scrapper.dto.response.LinkResponse
-import ru.bytebosses.scrapper.exception.ChatIsNotExistException
+import ru.bytebosses.scrapper.api.link.dto.LinkResponse
+import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
 import ru.bytebosses.scrapper.model.Link
 import ru.bytebosses.scrapper.service.LinkService
 import java.net.URI

@@ -1,4 +1,4 @@
-package ru.bytebosses.scrapper.dto.response
+package ru.bytebosses.scrapper.api.link.dto
 
 import java.net.URI
 

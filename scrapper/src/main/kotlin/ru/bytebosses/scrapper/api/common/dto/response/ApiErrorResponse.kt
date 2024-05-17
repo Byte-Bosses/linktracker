@@ -1,4 +1,4 @@
-package ru.bytebosses.scrapper.dto.response
+package ru.bytebosses.scrapper.api.common.dto.response
 
 data class ApiErrorResponse(
     val description: String,

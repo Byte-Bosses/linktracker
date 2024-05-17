@@ -1,4 +1,4 @@
-package ru.bytebosses.scrapper.dto.request.bot
+package ru.bytebosses.scrapper.api.common.dto.request.bot
 
 import ru.bytebosses.extension.api.LinkUpdateInformation
 

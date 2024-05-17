@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import ru.bytebosses.scrapper.domain.entity.ChatEntity
 import ru.bytebosses.scrapper.domain.repository.ChatRepository
-import ru.bytebosses.scrapper.exception.ChatAlreadyExistException
-import ru.bytebosses.scrapper.exception.ChatIsNotExistException
+import ru.bytebosses.scrapper.api.chat.exception.ChatAlreadyExistException
+import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
 import ru.bytebosses.scrapper.service.TgChatService
 
 @Service
