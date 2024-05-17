@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.api.endpoints.kafkaConsumer;
+package ru.bytebosses.bot.api.endpoints.kafkaconsumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

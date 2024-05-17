@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.bytebosses.bot.api.dto.request.LinkUpdate;
 import ru.bytebosses.bot.api.dto.request.LinkUpdateEvent;
 import ru.bytebosses.bot.api.dto.request.LinkUpdateInformation;
-import ru.bytebosses.bot.printerToChat.ChatResponser;
+import ru.bytebosses.bot.printertochat.ChatResponser;
 
 /**
  * LinkUpdatesService class is used for notifying users on updates in tracked links

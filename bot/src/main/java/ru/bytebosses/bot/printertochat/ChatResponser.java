@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.printerToChat;
+package ru.bytebosses.bot.printertochat;
 
 import com.pengrad.telegrambot.request.SendMessage;
 

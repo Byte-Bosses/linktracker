@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.api.endpoints.controllers.rateLimit;
+package ru.bytebosses.bot.api.endpoints.controllers.ratelimit;
 
 import io.github.bucket4j.Bucket;
 import java.time.Duration;

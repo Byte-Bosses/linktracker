@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.api.endpoints.controllers.rateLimit;
+package ru.bytebosses.bot.api.endpoints.controllers.ratelimit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

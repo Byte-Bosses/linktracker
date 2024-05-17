@@ -1,4 +1,4 @@
-package ru.bytebosses.bot.api.endpoints.controllers.rateLimit;
+package ru.bytebosses.bot.api.endpoints.controllers.ratelimit;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Duration;
