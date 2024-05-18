@@ -33,17 +33,17 @@ class LinkUpdatesScheduler(
     fun updateLinks() {
         log.info("Updating links...")
         val links =
-            linkService.listStaleLinks(config.scheduler.limit, config.scheduler.forceCheckDelay.toKotlinDuration())
-
-
-        for (i in 2 until 4)
-            for (link in links) {
-                try {
-                    updateLink(link)
-                } catch (e: Exception) {
-                    log.error("Failed to update link $link", e)
-                }
+            linkService.listStaleLinks(
+                config.scheduler.limit,
+                config.scheduler.forceCheckDelay.toKotlinDuration()
+            )
+        for (link in links) {
+            try {
+                updateLink(link)
+            } catch (e: Exception) {
+                log.error("Failed to update link $link", e)
             }
+        }
         log.info("Finished updating links")
     }
 
