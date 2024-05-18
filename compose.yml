@@ -8,7 +8,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
-      - postgresql:/var/lib/postgresql/data
+      - postgresql-data:/var/lib/postgresql/data
     networks:
       - backend
   liquibase-migrations:
@@ -38,7 +38,7 @@ services:
       ZOOKEEPER_SERVERS: zoo1:2888:3888
     volumes:
       - zoo-data:/var/lib/zookeeper/data
-      - zoo-log:/var/lib/zookeeper/log
+      - zoo-log-data:/var/lib/zookeeper/log
 
   kafka1:
     image: confluentinc/cp-kafka:7.3.2
@@ -65,13 +65,13 @@ services:
     depends_on:
       - zoo1
     volumes:
-      - kafka1:/var/lib/kafka/data
+      - kafka1-data:/var/lib/kafka/data
 
 volumes:
-  postgresql: { }
-  kafka1: { }
+  postgresql-data: { }
+  kafka1-data: { }
   zoo-data: { }
-  zoo-log: { }
+  zoo-log-data: { }
 
 networks:
   backend: { }
