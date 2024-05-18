@@ -1,6 +1,8 @@
-package ru.bytebosses.extension.api
+package ru.bytebosses.extension.api.configurable
 
-abstract class ConfigurableInformationProvider(protected val config: MutableMap<String, String> = hashMapOf()) :
+import ru.bytebosses.extension.api.InformationProvider
+
+abstract class ConfigurableInformationProvider(private val config: MutableMap<String, String> = hashMapOf()) :
     InformationProvider {
     open fun configure(key: String, value: String) {
         config[key] = value

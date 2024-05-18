@@ -1,4 +1,4 @@
-package ru.bytebosses.extension.infra.loader
+package ru.bytebosses.extension.infrastructure.loader
 
 import java.net.URL
 import java.net.URLClassLoader

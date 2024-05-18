@@ -1,4 +1,4 @@
-package ru.bytebosses.extension.infra.loader
+package ru.bytebosses.extension.infrastructure.loader
 
 import org.reflections.ReflectionUtils
 import org.reflections.Reflections
@@ -37,6 +37,9 @@ class ExtensionLoader {
         extensions: MutableList<InformationProvider> = mutableListOf()
     ): List<InformationProvider> {
         val file = root.toFile()
+        if (!file.exists()) {
+            return extensions
+        }
         if (file.isDirectory) {
             file.listFiles()?.forEach { loadAllExtensions(it.toPath(), extensions) }
             return extensions

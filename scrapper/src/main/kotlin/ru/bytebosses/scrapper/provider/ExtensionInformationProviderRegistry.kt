@@ -2,17 +2,18 @@ package ru.bytebosses.scrapper.provider
 
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Service
 import ru.bytebosses.extension.api.ExtensionProvider
 import ru.bytebosses.extension.api.InformationProvider
-import ru.bytebosses.extension.infra.loader.ExtensionLoader
+import ru.bytebosses.extension.infrastructure.loader.ExtensionLoader
 import java.net.URI
 import java.nio.file.Path
 import java.util.*
 
-@Service
-class ExtensionInformationProviderRegistry(private val providers: MutableMap<String, InformationProvider> = hashMapOf()) :
-    InformationProvidersRegistry {
+class ExtensionInformationProviderRegistry(
+    private val providers: MutableMap<String, InformationProvider> = hashMapOf(),
+    private val directory: Path = Path.of("extensions")
+) : InformationProvidersRegistry {
+
     private val logger = LoggerFactory.getLogger("ExtensionInformationProviderRegistry")
     override fun registerInformationProvider(id: String, provider: InformationProvider) {
         providers[id] = provider
@@ -33,7 +34,7 @@ class ExtensionInformationProviderRegistry(private val providers: MutableMap<Str
         logger.info("Starting extension initialization")
 
         val extensionLoader = ExtensionLoader()
-        val extensions = extensionLoader.loadAllExtensions(Path.of("github-extension").toAbsolutePath())
+        val extensions = extensionLoader.loadAllExtensions(directory.toAbsolutePath())
         extensions.forEach {
             registerInformationProvider(
                 it.javaClass.getAnnotation(ExtensionProvider::class.java).name, it
