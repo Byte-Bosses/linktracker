@@ -1,5 +1,6 @@
 package ru.bytebosses.scrapper.provider.api
 
+import ru.bytebosses.extension.api.LinkUpdateInformation
 import java.net.URI
 import java.time.OffsetDateTime
 

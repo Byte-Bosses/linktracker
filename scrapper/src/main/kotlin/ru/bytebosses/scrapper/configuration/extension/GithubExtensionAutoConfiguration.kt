@@ -21,18 +21,4 @@ class GithubExtensionAutoConfiguration {
             informationProvidersRegistry.registerInformationProvider("github", this)
         }
 
-    @PostConstruct
-    fun initialize() {
-        GithubInformationProvider().apply {
-            initialize()
-            println(
-                retrieveInformation(
-                    URI("https://github.com/Byte-Bosses/linktracker"), hashMapOf(), OffsetDateTime.of(
-                        2024, 5, 1, 0, 0, 0, 0, OffsetDateTime.now().offset
-                    )
-                )
-            )
-        }
-    }
-
 }
