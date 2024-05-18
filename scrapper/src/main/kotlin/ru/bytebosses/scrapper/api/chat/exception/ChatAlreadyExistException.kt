@@ -1,3 +1,7 @@
 package ru.bytebosses.scrapper.api.chat.exception
 
-class ChatAlreadyExistException(val id: Long) : RuntimeException("Chat $id already exists")
+import org.springframework.http.HttpStatus
+import ru.bytebosses.scrapper.api.common.exception.ScrapperException
+
+class ChatAlreadyExistException(chatId: Long) :
+    ScrapperException("Chat with id $chatId is already exists", HttpStatus.BAD_REQUEST)
