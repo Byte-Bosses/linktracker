@@ -24,15 +24,6 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
     private lateinit var client: GithubApiClient
     private val collectors = hashMapOf<String, GithubEventCollector>()
 
-    init {
-        Reflections("ru.bytebosses.extension.github.collectors")
-            .getTypesAnnotatedWith(RegisterGithubCollector::class.java)
-            .forEach {
-                val collector = it.getConstructor().newInstance() as GithubEventCollector
-                collectors[it.getAnnotation(RegisterGithubCollector::class.java).type] = collector
-            }
-    }
-
     override fun retrieveInformation(
         uri: URI,
         metadata: Map<String, String>,
@@ -81,6 +72,12 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
             .builderFor(WebClientAdapter.create(createWebClient()))
             .build()
         client = httpServiceProxyFactory.createClient(GithubApiClient::class.java)
+        Reflections("ru.bytebosses.extension.github.collectors")
+            .getTypesAnnotatedWith(RegisterGithubCollector::class.java)
+            .forEach {
+                val collector = it.getConstructor().newInstance() as GithubEventCollector
+                collectors[it.getAnnotation(RegisterGithubCollector::class.java).type] = collector
+            }
     }
 
 
