@@ -19,7 +19,7 @@ spring:
     password: postgres
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
   kafka:
     producer:
       bootstrap-servers: localhost:9092
