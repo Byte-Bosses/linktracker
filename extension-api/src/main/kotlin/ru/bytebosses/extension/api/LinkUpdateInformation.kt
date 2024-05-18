@@ -5,8 +5,8 @@ import java.time.OffsetDateTime
 
 data class LinkUpdateInformation(
     val uri: URI,
-    val title: String,
-    val events: List<LinkUpdateEvent>
+    val events: List<LinkUpdateEvent>,
+    val updateInfo: Map<String, String> = mapOf()
 )
 
 data class LinkUpdateEvent(

@@ -2,24 +2,35 @@ package ru.bytebosses.scrapper.service.impl
 
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import ru.bytebosses.scrapper.domain.entity.ChatEntity
-import ru.bytebosses.scrapper.domain.repository.ChatRepository
 import ru.bytebosses.scrapper.api.chat.exception.ChatAlreadyExistException
 import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
+import ru.bytebosses.scrapper.domain.entity.ChatEntity
+import ru.bytebosses.scrapper.domain.repository.ChatRepository
+import ru.bytebosses.scrapper.domain.repository.LinkRepository
 import ru.bytebosses.scrapper.service.TgChatService
 
 @Service
 @Transactional
-class DefaultChatService(private val repository: ChatRepository) : TgChatService {
+class DefaultChatService(
+    private val chatRepository: ChatRepository,
+    private val linkRepository: LinkRepository
+) : TgChatService {
     override fun register(chatId: Long) {
-        if (repository.existsById(chatId))
+        if (chatRepository.existsById(chatId))
             throw ChatAlreadyExistException(chatId)
-        repository.save(ChatEntity(chatId))
+        chatRepository.save(ChatEntity(chatId))
     }
 
     override fun remove(chatId: Long) {
-        if (!repository.existsById(chatId))
+        if (!chatRepository.existsById(chatId))
             throw ChatIsNotExistException(chatId)
-        repository.deleteById(chatId)
+        val chat = chatRepository.findById(chatId).get()
+        val links = ArrayList(chat.links)
+        links.forEach {
+            chat.removeLink(it)
+            if (it.chats.isEmpty())
+                linkRepository.delete(it)
+        }
+        chatRepository.delete(chat)
     }
 }
