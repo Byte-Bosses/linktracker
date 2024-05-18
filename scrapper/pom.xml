@@ -19,16 +19,27 @@
 
     <dependencies>
 
-        <!-- Database--><!-- Extension -->
+        <!-- Database-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Extension -->
         <dependency>
             <groupId>ru.bytebosses</groupId>
             <artifactId>extension-api</artifactId>
-            <version>${revision}</version>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>ru.bytebosses</groupId>
+            <artifactId>github-extension</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
 
         <!-- Kotlin -->
