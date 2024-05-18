@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service
 import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
 import ru.bytebosses.scrapper.api.link.dto.LinkResponse
 import ru.bytebosses.scrapper.api.link.exception.LinkAlreadyAddedException
+import ru.bytebosses.scrapper.api.link.exception.LinkIsNotExistException
 import ru.bytebosses.scrapper.api.link.exception.LinkProviderNotFoundException
 import ru.bytebosses.scrapper.domain.entity.LinkEntity
 import ru.bytebosses.scrapper.domain.repository.ChatRepository
@@ -63,7 +64,7 @@ class DefaultLinkService(
     }
 
     override fun removeLink(id: Long, tgChatId: Long): LinkResponse {
-        val chat = chatRepository.findById(tgChatId).orElseThrow { ChatIsNotExistException(tgChatId) }
+        val chat = chatRepository.findById(tgChatId).orElseThrow { LinkIsNotExistException(id) }
         val link = linkRepository.findById(id).orElseThrow()
         chat.removeLink(link)
         if (link.chats.isEmpty()) {
