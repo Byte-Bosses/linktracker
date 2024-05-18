@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Bot api
+  version: 1.0.0
+  contact:
+    name: Krupnov Evgenij
+    url: https://github.com/krupnoveo
+
+paths:
+  /updates:
+    post:
+      summary: Отправить пользователям обновления
+      "requestBody":
+        "content":
+          "application/json":
+            "schema":
+              "$ref": "#/components/schemas/LinkUpdate"
+        "required": true
+      responses:
+        '200':
+          description: Обновления получены
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+
+components:
+  schemas:
+    ApiErrorResponse:
+      type: object
+      properties:
+        description:
+          type: string
+        code:
+          type: string
+        exceptionName:
+          type: string
+        exceptionMessage:
+          type: string
+        stacktrace:
+          type: array
+          items:
+            type: string
+    LinkUpdate:
+      type: object
+      properties:
+        linkUpdateInformation:
+          $ref: "#/components/schemas/LinkUpdateInformation"
+        tgChatIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+
+    LinkUpdateInformation:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+        title:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/LinkUpdateEvent"
+
+    LinkUpdateEvent:
+      type: object
+      properties:
+        type:
+          type: string
+        updateTime:
+          type: string
+          format: date-time
+        metaInfo:
+          type: object
+          additionalProperties:
+            type: string
