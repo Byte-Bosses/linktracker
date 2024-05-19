@@ -1,7 +1,6 @@
 package ru.bytebosses.extension.github
 
 import com.fasterxml.jackson.core.type.TypeReference
-import org.reflections.Reflections
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatusCode
 import org.springframework.web.reactive.function.client.ClientResponse
@@ -12,10 +11,11 @@ import reactor.core.publisher.Mono
 import ru.bytebosses.extension.api.ExtensionProvider
 import ru.bytebosses.extension.api.LinkUpdateInformation
 import ru.bytebosses.extension.api.configurable.YamlConfigurableInformationProvider
+import ru.bytebosses.extension.api.events.ClasspathEventCollectorsRegistry
+import ru.bytebosses.extension.api.events.EventCollectorsRegistry
+import ru.bytebosses.extension.api.mapper.YamlTextMapper
 import ru.bytebosses.extension.github.client.GithubApiClient
 import ru.bytebosses.extension.github.collectors.api.GithubEventCollector
-import ru.bytebosses.extension.github.collectors.api.RegisterGithubCollector
-import ru.bytebosses.extension.github.language.LanguageMapper
 import ru.bytebosses.extension.github.model.GithubEventInfo
 import java.net.URI
 import java.time.OffsetDateTime
@@ -27,8 +27,8 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
     GithubProviderConfiguration(System.getenv("GITHUB_TOKEN"), BASE_API_URL)
 ) {
     private lateinit var client: GithubApiClient
-    private val collectors = hashMapOf<String, GithubEventCollector>()
-    private val languageMapper = LanguageMapper.default()
+    private lateinit var eventRegistry: EventCollectorsRegistry<GithubEventCollector>
+    private val languageMapper = YamlTextMapper.default(GithubInformationProvider::class.java)
 
     override fun retrieveInformation(
         uri: URI,
@@ -39,7 +39,7 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
             val events = collectEvents(uri, lastUpdate)
             return LinkUpdateInformation(
                 uri,
-                events.mapNotNull { collectors[it.type]?.collect(it) }
+                events.mapNotNull { eventRegistry.getAll()[it.type]?.collect(it) }
                     .map { it.copy(type = languageMapper.map(it.type)) }
                     .reversed(),
                 metadata
@@ -82,12 +82,9 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
             .builderFor(WebClientAdapter.create(createWebClient()))
             .build()
         client = httpServiceProxyFactory.createClient(GithubApiClient::class.java)
-        Reflections("ru.bytebosses.extension.github.collectors")
-            .getTypesAnnotatedWith(RegisterGithubCollector::class.java)
-            .forEach {
-                val collector = it.getConstructor().newInstance() as GithubEventCollector
-                collectors[it.getAnnotation(RegisterGithubCollector::class.java).type] = collector
-            }
+        eventRegistry = ClasspathEventCollectorsRegistry
+            .create<GithubEventCollector>("ru.bytebosses.extension.github.collectors")
+            .apply { loadAll() }
     }
 
 

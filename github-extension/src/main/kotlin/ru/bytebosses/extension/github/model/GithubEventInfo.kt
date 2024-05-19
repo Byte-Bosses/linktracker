@@ -17,6 +17,7 @@ data class GithubEventInfo(
         val size: String?,
         val ref: String?,
         val issue: IssueCommentEventPayload?,
+        val review: Review?,
         @field:JsonProperty("pull_request") val pullRequest: PullRequestEventPayload?,
         @field:JsonProperty("ref_type") val refType: String?
     )
@@ -31,5 +32,9 @@ data class GithubEventInfo(
 
     data class Actor(
         val login: String
+    )
+
+    data class Review(
+        val body: String?
     )
 }

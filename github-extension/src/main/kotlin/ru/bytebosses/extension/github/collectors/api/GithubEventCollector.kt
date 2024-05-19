@@ -6,5 +6,3 @@ import ru.bytebosses.extension.github.model.GithubEventInfo
 interface GithubEventCollector {
     fun collect(info: GithubEventInfo): LinkUpdateEvent
 }
-
-annotation class RegisterGithubCollector(val type: String)
