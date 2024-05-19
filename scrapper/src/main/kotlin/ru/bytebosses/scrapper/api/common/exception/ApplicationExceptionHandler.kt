@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import ru.bytebosses.scrapper.api.common.dto.response.ApiErrorResponse
 import java.util.*
 
+/**
+ * Handles exceptions and map it to ApiErrorResponse
+ */
 @RestControllerAdvice
 class ApplicationExceptionHandler : ResponseEntityExceptionHandler() {
     override fun handleMethodArgumentNotValid(
