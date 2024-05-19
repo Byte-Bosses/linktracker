@@ -15,7 +15,7 @@ class YamlTextMapper(private val map: Map<String, String>) : TextMapper {
         }
 
         fun default(provider: Class<*>): YamlTextMapper {
-            return ofResource("/ru-RU.yaml", provider)
+            return ofResource("ru-RU.yaml", provider)
         }
     }
 }

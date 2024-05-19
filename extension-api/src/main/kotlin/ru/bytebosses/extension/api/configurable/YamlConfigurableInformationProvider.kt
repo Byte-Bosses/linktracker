@@ -22,7 +22,6 @@ abstract class YamlConfigurableInformationProvider<T : Any>(
     override fun initialize() {
         saveConfig(configFileName, rewrite = false)
         config = loadConfig(configFileName)
-        println(config.javaClass)
     }
 
     fun loadConfig(path: String): T {
