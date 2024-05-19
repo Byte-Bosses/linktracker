@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory
 import ru.bytebosses.extension.api.InformationProvider
 import java.io.File
 
+/**
+ * Yaml configuration support for information provider
+ */
 abstract class YamlConfigurableInformationProvider<T : Any>(
     private val configFileName: String,
     initialConfiguration: T
@@ -37,5 +40,8 @@ abstract class YamlConfigurableInformationProvider<T : Any>(
         }
     }
 
+    /**
+     * Needed because TypeReference not good for generics and by overriding that we can use it
+     */
     abstract fun type(): TypeReference<T>
 }

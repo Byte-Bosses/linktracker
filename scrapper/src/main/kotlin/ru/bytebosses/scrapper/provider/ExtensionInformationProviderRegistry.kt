@@ -9,6 +9,9 @@ import java.net.URI
 import java.nio.file.Path
 import java.util.*
 
+/**
+ * Holds information providers loaded from extensions with jar or by uri
+ */
 class ExtensionInformationProviderRegistry(
     private val providers: MutableMap<String, InformationProvider> = hashMapOf(),
     private val directory: Path = Path.of("extensions")

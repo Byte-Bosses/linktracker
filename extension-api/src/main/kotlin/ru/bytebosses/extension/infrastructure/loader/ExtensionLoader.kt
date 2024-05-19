@@ -11,6 +11,9 @@ import ru.bytebosses.extension.api.InformationProvider
 import java.net.URL
 import java.nio.file.Path
 
+/**
+ * Load extensions from jar and url
+ */
 class ExtensionLoader {
     private val logger: Logger = LoggerFactory.getLogger("ExtensionLoader")
     fun loadExtension(url: URL): InformationProvider {
