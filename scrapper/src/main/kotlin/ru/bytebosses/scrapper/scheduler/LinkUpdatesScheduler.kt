@@ -1,7 +1,6 @@
 package ru.bytebosses.scrapper.scheduler
 
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
@@ -12,7 +11,6 @@ import ru.bytebosses.scrapper.model.Link
 import ru.bytebosses.scrapper.provider.InformationProvidersRegistry
 import ru.bytebosses.scrapper.sender.UpdateSender
 import ru.bytebosses.scrapper.service.LinkService
-import kotlin.time.toKotlinDuration
 
 @Service
 @EnableScheduling
@@ -24,7 +22,7 @@ class LinkUpdatesScheduler(
     private val informationProvidersRegistry: InformationProvidersRegistry,
 ) {
 
-    val log: Logger = LogManager.getLogger()
+    val log = LoggerFactory.getLogger(LinkUpdatesScheduler::class.java)
 
     @Scheduled(
         initialDelayString = "#{@'app-ru.bytebosses.scrapper.configuration.ApplicationConfig'.scheduler.initialDelay}",

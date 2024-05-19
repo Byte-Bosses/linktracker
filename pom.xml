@@ -5,7 +5,7 @@
 
     <groupId>ru.bytebosses</groupId>
     <artifactId>root</artifactId>
-    <version>${revision}</version>
+    <version>0.1</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -53,6 +53,7 @@
         <module>scrapper</module>
         <module>extension-api</module>
         <module>github-extension</module>
+        <module>stackoverflow-extension</module>
     </modules>
 
     <dependencyManagement>
