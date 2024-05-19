@@ -39,20 +39,26 @@ class ExtensionInformationProviderRegistry(
     fun initialize() {
         logger.info("#################################################")
         logger.info("Starting extension initialization")
+
         logger.info("Downloading remote extensions if needed")
         downloadRemoteExtensions()
         logger.info("Remote extensions directory: ${directory.toAbsolutePath()}")
+
         val extensionLoader = ExtensionLoader(defineExtensionClassLoader())
         val extensions = extensionLoader.loadAllExtensions(directory.toAbsolutePath())
+
         extensions.forEach {
+            val info = it.javaClass.getAnnotation(ExtensionProvider::class.java)
+            logger.info("Extension ${info.name} by ${info.author} v${info.version} is successfully loaded")
             registerInformationProvider(
-                it.javaClass.getAnnotation(ExtensionProvider::class.java).name, it
+                info.name, it
             )
         }
         providers.entries.forEach {
             it.value.initialize()
             logger.info("Provider ${it.key} initialized")
         }
+
         logger.info("Extension initialization completed")
         logger.info("#################################################")
     }
