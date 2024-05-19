@@ -1,9 +1,10 @@
 package ru.bytebosses.scrapper.service
 
-import ru.bytebosses.scrapper.dto.response.LinkResponse
+import ru.bytebosses.scrapper.api.link.dto.LinkResponse
 import ru.bytebosses.scrapper.model.Link
 import java.net.URI
-import kotlin.time.Duration
+import java.time.Duration
+
 
 interface LinkService {
     fun listLinks(tgChatId: Long): List<LinkResponse>

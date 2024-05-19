@@ -1,12 +1,16 @@
 app:
   scheduler:
-    enable: false
+    enable: true
     interval: 10s
     force-check-delay: 10s
     initial-delay: 10s
     limit: 10
   kafka-topics:
     link-updates: link-updates
+  bot:
+    url: http://localhost:8080
+  sender:
+    type: http
 
 spring:
   application:

@@ -48,6 +48,6 @@ class LinkEntity (
         uri = URI.create(url!!),
         lastCheckTime = lastCheckedAt!!,
         lastUpdateTime = lastUpdatedAt!!,
-        metaInfo = metaInfo
+        metaInfo = metaInfo.toMap()
     )
 }

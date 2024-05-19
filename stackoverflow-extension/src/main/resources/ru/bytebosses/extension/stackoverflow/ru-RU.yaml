@@ -1,0 +1,2 @@
+stackoverflow.answer_event: Изменилось количество ответов на вопрос {title}. Количество ответов - {count}
+stackoverflow.score_event: Изменилась оценка вопроса {title}. Оценка - {score}

@@ -1,18 +1,16 @@
 package ru.bytebosses.scrapper.scheduler
 
-import org.apache.logging.log4j.LogManager
-import org.apache.logging.log4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import ru.bytebosses.scrapper.api.common.dto.request.bot.LinkUpdate
 import ru.bytebosses.scrapper.configuration.ApplicationConfig
-import ru.bytebosses.scrapper.dto.request.bot.LinkUpdate
 import ru.bytebosses.scrapper.model.Link
-import ru.bytebosses.scrapper.provider.api.InformationProvidersRegistry
+import ru.bytebosses.scrapper.provider.InformationProvidersRegistry
 import ru.bytebosses.scrapper.sender.UpdateSender
 import ru.bytebosses.scrapper.service.LinkService
-import kotlin.time.toKotlinDuration
 
 @Service
 @EnableScheduling
@@ -24,7 +22,7 @@ class LinkUpdatesScheduler(
     private val informationProvidersRegistry: InformationProvidersRegistry,
 ) {
 
-    val log: Logger = LogManager.getLogger()
+    val log = LoggerFactory.getLogger(LinkUpdatesScheduler::class.java)
 
     @Scheduled(
         initialDelayString = "#{@'app-ru.bytebosses.scrapper.configuration.ApplicationConfig'.scheduler.initialDelay}",
@@ -35,7 +33,7 @@ class LinkUpdatesScheduler(
         val links =
             linkService.listStaleLinks(
                 config.scheduler.limit,
-                config.scheduler.forceCheckDelay.toKotlinDuration()
+                config.scheduler.forceCheckDelay
             )
         for (link in links) {
             try {
@@ -58,11 +56,11 @@ class LinkUpdatesScheduler(
             val tgChats = linkService.getChatIdsForLink(link.id)
             updateSender.sendUpdate(LinkUpdate(info, tgChats))
             val lastUpdateTime = info.events.last().updateTime
-            val lastMetaInfo = info.events.last().metaInfo
+            val lastMetaInfo = info.updateInfo
             val updatedLink = link.updated(lastUpdateTime, lastMetaInfo)
             linkService.updateLink(updatedLink)
         } else {
-            log.info("no events for this link")
+            log.info("No events for this link")
             linkService.updateLink(link.justChecked())
         }
     }

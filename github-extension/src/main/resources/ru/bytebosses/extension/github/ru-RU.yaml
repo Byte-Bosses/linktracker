@@ -1,0 +1,6 @@
+github.push_event: Новый пуш в репозитории {repo} пользователем {user} размером {size} коммит(ов)
+github.issues_event: Новый issue {title} в репозитории {repo} добавлен пользователем {user}
+github.issue_comment_event: Добавлен новый комментарий к issue {title} в репозитории {repo} пользователем {user}
+github.pull_request_event: В репозитории {repo} проведены изменения в pull request {title} пользователем {user}
+github.create_event: В репозитории {repo} произошли изменения в {ref_type} - {ref}
+github.pull_request_review_event: Получен ревью в репозитории {repo} в pull request {title} пользователем {user} с комментарием {comment}
