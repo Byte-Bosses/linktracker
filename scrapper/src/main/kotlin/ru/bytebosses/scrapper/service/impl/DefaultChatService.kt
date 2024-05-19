@@ -3,7 +3,7 @@ package ru.bytebosses.scrapper.service.impl
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import ru.bytebosses.scrapper.api.chat.exception.ChatAlreadyExistException
-import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
+import ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException
 import ru.bytebosses.scrapper.domain.entity.ChatEntity
 import ru.bytebosses.scrapper.domain.repository.ChatRepository
 import ru.bytebosses.scrapper.domain.repository.LinkRepository
@@ -23,7 +23,7 @@ class DefaultChatService(
 
     override fun remove(chatId: Long) {
         if (!chatRepository.existsById(chatId))
-            throw ChatIsNotExistException(chatId)
+            throw ChatDoesNotExistException(chatId)
         val chat = chatRepository.findById(chatId).get()
         val links = ArrayList(chat.links)
         links.forEach {

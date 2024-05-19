@@ -3,10 +3,10 @@ package ru.bytebosses.scrapper.service.impl
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.Limit
 import org.springframework.stereotype.Service
-import ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException
+import ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException
 import ru.bytebosses.scrapper.api.link.dto.LinkResponse
 import ru.bytebosses.scrapper.api.link.exception.LinkAlreadyAddedException
-import ru.bytebosses.scrapper.api.link.exception.LinkIsNotExistException
+import ru.bytebosses.scrapper.api.link.exception.LinkDoesNotExistException
 import ru.bytebosses.scrapper.api.link.exception.LinkProviderNotFoundException
 import ru.bytebosses.scrapper.domain.entity.LinkEntity
 import ru.bytebosses.scrapper.domain.repository.ChatRepository
@@ -27,29 +27,26 @@ class DefaultLinkService(
     private val informationProviders: InformationProvidersRegistry
 ) : LinkService {
     override fun listLinks(tgChatId: Long): List<LinkResponse> {
-        val chat = chatRepository.findById(tgChatId).orElseThrow { ChatIsNotExistException(tgChatId) }
-        return linkRepository.findAllByChatsContaining(chat)
+        val chat = chatRepository.findById(tgChatId).orElseThrow { ChatDoesNotExistException(tgChatId) }
+        return chat.links
             .map { LinkResponse(it.id!!, URI.create(it.url!!)) }
     }
 
     override fun addLink(link: URI, tgChatId: Long): LinkResponse {
-        val chat = chatRepository.findById(tgChatId).orElseThrow { ChatIsNotExistException(tgChatId) }
+        val chat = chatRepository.findById(tgChatId).orElseThrow { ChatDoesNotExistException(tgChatId) }
+        val optionalLink = linkRepository.findByUrl(link.toString())
+        if (optionalLink.isPresent) {
+            val linkEntity = optionalLink.get()
+            if (linkEntity.chats.contains(chat)) throw LinkAlreadyAddedException(linkEntity.id!!)
+            chat.addLink(linkEntity)
+            return LinkResponse(linkEntity.id!!, link)
+        }
         val provider =
             informationProviders.findInformationProvider(link).orElseThrow { LinkProviderNotFoundException(link) }
         val linkInformation = provider.retrieveInformation(link)
         var lastModified = OffsetDateTime.now()
         if (linkInformation.events.isNotEmpty()) {
             lastModified = linkInformation.events.first().updateTime
-        }
-        val optionalLink = linkRepository.findByUrl(link.toString())
-        if (optionalLink.isPresent) {
-            val linkEntity = optionalLink.get()
-            if (linkEntity.chats.contains(chat)) throw LinkAlreadyAddedException(linkEntity.id!!)
-            linkEntity.lastUpdatedAt = lastModified
-            linkEntity.lastCheckedAt = OffsetDateTime.now()
-            linkEntity.metaInfo = linkInformation.updateInfo
-            chat.addLink(linkEntity)
-            return LinkResponse(linkEntity.id!!, link)
         }
         val linkEntity = LinkEntity(
             url = link.toString(),
@@ -64,7 +61,7 @@ class DefaultLinkService(
     }
 
     override fun removeLink(id: Long, tgChatId: Long): LinkResponse {
-        val chat = chatRepository.findById(tgChatId).orElseThrow { LinkIsNotExistException(id) }
+        val chat = chatRepository.findById(tgChatId).orElseThrow { LinkDoesNotExistException(id) }
         val link = linkRepository.findById(id).orElseThrow()
         chat.removeLink(link)
         if (link.chats.isEmpty()) {

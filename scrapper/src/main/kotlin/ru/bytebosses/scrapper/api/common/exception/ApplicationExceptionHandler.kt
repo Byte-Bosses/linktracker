@@ -2,6 +2,7 @@ package ru.bytebosses.scrapper.api.common.exception
 
 import org.springframework.beans.TypeMismatchException
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -83,6 +84,20 @@ class ApplicationExceptionHandler : ResponseEntityExceptionHandler() {
                 Arrays.stream(ex.stackTrace).map(StackTraceElement::toString).toList()
             ),
             ex.code
+        )
+    }
+
+    @ExceptionHandler(RuntimeException::class)
+    fun handleException(ex: RuntimeException): ResponseEntity<ApiErrorResponse?> {
+        return ResponseEntity(
+            ApiErrorResponse(
+                ex.message ?: "Unknown error",
+                "500",
+                ex.javaClass.getSimpleName(),
+                ex.message ?: "Unknown error",
+                Arrays.stream(ex.stackTrace).map(StackTraceElement::toString).toList()
+            ),
+            HttpStatus.INTERNAL_SERVER_ERROR
         )
     }
 }

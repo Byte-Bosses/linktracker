@@ -15,7 +15,7 @@ class LinkController(val linkService: LinkService) {
 
     /**
      * List links for specified chat
-     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException if chat not found
+     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException if chat not found
      */
     @GetMapping
     fun listLinks(@PathVariable("chat_id") tgChatId: Long): List<LinkResponse> {
@@ -24,7 +24,7 @@ class LinkController(val linkService: LinkService) {
 
     /**
      * Add new link
-     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException if chat not found
+     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException if chat not found
      * @throws ru.bytebosses.scrapper.api.link.exception.LinkAlreadyAddedException if link already added
      */
     @PostMapping
@@ -37,8 +37,8 @@ class LinkController(val linkService: LinkService) {
 
     /**
      * Remove link
-     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException if chat not found
-     * @throws ru.bytebosses.scrapper.api.link.exception.LinkIsNotExistException if link not found
+     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException if chat not found
+     * @throws ru.bytebosses.scrapper.api.link.exception.LinkDoesNotExistException if link not found
      */
     @DeleteMapping("{link_id}")
     fun removeLink(

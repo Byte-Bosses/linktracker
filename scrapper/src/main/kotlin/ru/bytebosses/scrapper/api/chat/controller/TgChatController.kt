@@ -21,7 +21,7 @@ class TgChatController(val chatService: TgChatService) {
 
     /**
      * Remove telegram chat from observation
-     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatIsNotExistException if chat not found
+     * @throws ru.bytebosses.scrapper.api.chat.exception.ChatDoesNotExistException if chat not found
      */
     @DeleteMapping
     fun deleteChat(@PathVariable(required = true) id: Long) {
