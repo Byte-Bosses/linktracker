@@ -14,11 +14,12 @@ import java.nio.file.Path
 /**
  * Load extensions from jar and url
  */
-class ExtensionLoader {
+class ExtensionLoader(private val classLoader: ListExtensionClassLoader) {
     private val logger: Logger = LoggerFactory.getLogger("ExtensionLoader")
     fun loadExtension(url: URL): InformationProvider {
         logger.info("Loading extension from $url")
         val extensionClassLoader = ExtensionClassLoader(url)
+        classLoader.addExtensionClassLoader(extensionClassLoader)
         val reflections = Reflections(
             ConfigurationBuilder().setUrls(
                 ClasspathHelper.forClassLoader(
