@@ -60,7 +60,7 @@ class GithubInformationProvider : YamlConfigurableInformationProvider<GithubProv
         val events = client.getEvents(user, repo, PER_PAGE_COUNT, page)
         var finished = false
         events.forEach {
-            if (it.lastModified.isBefore(lastUpdate)) {
+            if (it.lastModified.isBefore(lastUpdate) || it.lastModified.isEqual(lastUpdate)) {
                 finished = true
                 return@forEach
             }

@@ -13,7 +13,7 @@ class StackoverflowAnswerEventCollector : StackoverflowEventCollector {
         context: Map<String, String>
     ): Pair<LinkUpdateEvent, Map<String, String>>? {
         val currentCount = context["answer_count"]?.toInt() ?: 0
-        if (info.answersCount > currentCount) {
+        if (info.answersCount != currentCount) {
             val newContext = context.toMutableMap()
             newContext["answer_count"] = info.answersCount.toString()
             return LinkUpdateEvent(
@@ -37,7 +37,7 @@ class StackoverflowScoreEventCollector : StackoverflowEventCollector {
         context: Map<String, String>
     ): Pair<LinkUpdateEvent, Map<String, String>>? {
         val currentScore = context["score"]?.toInt() ?: 0
-        if (info.score > currentScore) {
+        if (info.score != currentScore) {
             val newContext = context.toMutableMap()
             newContext["score"] = info.score.toString()
             return LinkUpdateEvent(

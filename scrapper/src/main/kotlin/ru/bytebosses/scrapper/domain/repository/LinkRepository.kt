@@ -11,7 +11,7 @@ interface LinkRepository : JpaRepository<LinkEntity, Long> {
 
     fun findByUrl(url: String): Optional<LinkEntity>
 
-    fun findAllByLastCheckedAtOrderByLastCheckedAt(lastCheckedAt: OffsetDateTime, limit: Limit): List<LinkEntity>
+    fun findAllByLastCheckedAtBeforeOrderByLastCheckedAt(lastCheckedAt: OffsetDateTime, limit: Limit): List<LinkEntity>
 
     fun findAllByChatsContaining(chat: ChatEntity): List<LinkEntity>
 }

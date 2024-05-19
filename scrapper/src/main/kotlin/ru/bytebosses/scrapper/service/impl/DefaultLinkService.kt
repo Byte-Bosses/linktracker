@@ -74,7 +74,7 @@ class DefaultLinkService(
     }
 
     override fun listStaleLinks(limit: Int, minTimeSinceLastCheck: Duration): List<Link> {
-        return linkRepository.findAllByLastCheckedAtOrderByLastCheckedAt(
+        return linkRepository.findAllByLastCheckedAtBeforeOrderByLastCheckedAt(
             OffsetDateTime.now().minus(minTimeSinceLastCheck), Limit.of(limit)
         ).map { it.toModel() }
     }
