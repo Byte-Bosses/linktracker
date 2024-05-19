@@ -1,11 +1,11 @@
 package ru.bytebosses.extension.github.collectors
 
 import ru.bytebosses.extension.api.LinkUpdateEvent
+import ru.bytebosses.extension.api.events.RegisterEventCollector
 import ru.bytebosses.extension.github.collectors.api.GithubEventCollector
-import ru.bytebosses.extension.github.collectors.api.RegisterGithubCollector
 import ru.bytebosses.extension.github.model.GithubEventInfo
 
-@RegisterGithubCollector("PushEvent")
+@RegisterEventCollector("PushEvent")
 class PushEventCollector : GithubEventCollector {
     override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
         "github.push_event",
@@ -18,7 +18,7 @@ class PushEventCollector : GithubEventCollector {
     )
 }
 
-@RegisterGithubCollector("IssuesEvent")
+@RegisterEventCollector("IssuesEvent")
 class IssueEventCollector : GithubEventCollector {
     override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
         "github.issues_event",
@@ -31,7 +31,7 @@ class IssueEventCollector : GithubEventCollector {
     )
 }
 
-@RegisterGithubCollector("IssueCommentEvent")
+@RegisterEventCollector("IssueCommentEvent")
 class IssueCommentEventCollector : GithubEventCollector {
     override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
         "github.issue_comment_event",
@@ -44,7 +44,7 @@ class IssueCommentEventCollector : GithubEventCollector {
     )
 }
 
-@RegisterGithubCollector("PullRequestEvent")
+@RegisterEventCollector("PullRequestEvent")
 class PullRequestEventCollector : GithubEventCollector {
     override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
         "github.pull_request_event",
@@ -57,7 +57,21 @@ class PullRequestEventCollector : GithubEventCollector {
     )
 }
 
-@RegisterGithubCollector("CreateEvent")
+@RegisterEventCollector("PullRequestReviewEvent")
+class PullRequestReviewEventCollector : GithubEventCollector {
+    override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
+        "github.pull_request_review_event",
+        info.lastModified,
+        mapOf(
+            "title" to info.payload!!.pullRequest!!.title,
+            "repo" to info.repo!!.name,
+            "user" to info.actor!!.login,
+            "comment" to (info.payload.review!!.body ?: "")
+        )
+    )
+}
+
+@RegisterEventCollector("CreateEvent")
 class CreateEventCollector : GithubEventCollector {
     override fun collect(info: GithubEventInfo) = LinkUpdateEvent(
         "github.create_event",
