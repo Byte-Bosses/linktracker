@@ -12,7 +12,8 @@ import org.springframework.stereotype.Service;
 import ru.bytebosses.bot.commands.CommandHandler;
 
 /**
- * CommandsHolder class is responsible for holding command handlers and their corresponding names and descriptions.
+ * CommandsHolder class is responsible for holding command handlers and
+ * their corresponding names and descriptions.
  * It is configured as a Spring Service and scans for components in the specified base package.
  */
 @Getter
@@ -43,7 +44,8 @@ public class CommandsHolder {
     }
 
     /**
-     * Converts a list of CommandHandlers into a map where the keys are command names and the values are CommandHandlers.
+     * Converts a list of CommandHandlers into a map where the keys are command names and
+     * the values are CommandHandlers.
      *
      * @param commandHandlers the list of CommandHandler instances.
      * @return a map associating command names with their corresponding CommandHandler.
