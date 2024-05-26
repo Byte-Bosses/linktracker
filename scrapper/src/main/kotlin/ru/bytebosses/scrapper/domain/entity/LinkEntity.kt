@@ -26,8 +26,8 @@ class LinkEntity (
         name = "meta_info",
         joinColumns = [JoinColumn(name = "link_id", referencedColumnName = "id")],
     )
-    @MapKeyColumn(name = "property")
-    @Column(name = "meta_info")
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
     var metaInfo: Map<String, String> = mutableMapOf(),
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "links")
