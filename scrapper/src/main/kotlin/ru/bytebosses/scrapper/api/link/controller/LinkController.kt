@@ -32,7 +32,7 @@ class LinkController(val linkService: LinkService) {
         @PathVariable("chat_id") tgChatId: Long,
         @RequestBody addLinkRequest: @Valid AddLinkRequest
     ): LinkResponse {
-        return linkService.addLink(addLinkRequest.uri, tgChatId)
+        return linkService.addLink(addLinkRequest.link, tgChatId)
     }
 
     /**

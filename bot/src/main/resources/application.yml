@@ -1,14 +1,46 @@
 app:
-  telegram-token: unset
+  telegram-token: ${TELEGRAM_TOKEN}
 
 spring:
   application:
     name: bot
   jackson:
     time-zone: UTC
+  kafka:
+    consumer:
+      bootstrap-servers: ${KAFKA_URL:localhost:29092}
+      group-id: scrapper
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.value.default.type: ru.bytebosses.bot.api.dto.request.LinkUpdate
+      auto-offset-reset: earliest
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+      bootstrap-servers: ${KAFKA_URL:localhost:29092}
+    bootstrap-servers: ${KAFKA_URL:localhost:29092}
+
+client:
+  scrapper:
+    url: ${SCRAPPER_URL:http://localhost:8080}
 
 server:
   port: 8090
 
 logging:
   config: classpath:log4j2-plain.xml
+
+retry:
+  client-configs:
+    - client: SCRAPPER
+      mode: FIXED
+      max-attempts: 3
+      min-delay: 1s
+      max-delay: 10s
+      multiplier: 1.0
+      codes:
+        - 429

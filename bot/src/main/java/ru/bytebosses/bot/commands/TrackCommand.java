@@ -32,7 +32,7 @@ public class TrackCommand extends CommandHandler {
         }
         if (text.length == 2) {
             GenericResponse<LinkResponse> response = botService.addLinkToDatabase(
-                text[1].toLowerCase(), chatId
+                text[1], chatId
             );
             if (response.errorResponse() == null) {
                 return new SendMessage(

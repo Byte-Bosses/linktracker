@@ -26,36 +26,27 @@ public class LinkUpdatesService {
      */
     public void notifyUsers(LinkUpdate linkUpdate) {
         log.info("Notifying users...");
-        for (long chatId : linkUpdate.chatIds()) {
+        for (long chatId : linkUpdate.tgChatIds()) {
             LinkUpdateInformation information = linkUpdate.linkUpdateInformation();
             for (LinkUpdateEvent event : information.events()) {
                 StringBuilder stringMessage = new StringBuilder();
                 stringMessage
-                    .append("***")
-                    .append(information.title())
-                    .append("***\n")
                     .append("По ссылке ")
                     .append(information.uri())
                     .append(" произошло обновление!\n")
-                    .append("Событие: ")
-                    .append(event.type())
-                    .append("\n")
                     .append("Время: ")
                     .append(event.updateTime())
-                    .append("\n")
-                    .append("Дополнительная информация: ");
+                    .append("\n");
+                var eventInfo = event.type();
                 for (var info : event.metaInfo().entrySet()) {
-                    stringMessage
-                        .append(info.getKey())
-                        .append(" –- ")
-                        .append(info.getValue())
-                        .append(",");
+                    eventInfo = eventInfo.replace("{" + info.getKey() + "}", info.getValue());
                 }
-                stringMessage.deleteCharAt(stringMessage.length() - 1);
+                stringMessage.append("Событие: ")
+                    .append(eventInfo);
                 SendMessage message = new SendMessage(
-                    chatId,
+                    String.valueOf(chatId),
                     stringMessage.toString()
-                ).parseMode(ParseMode.Markdown);
+                );
                 chatResponser.sendMessage(message);
             }
         }

@@ -44,7 +44,11 @@ class ExtensionInformationProviderRegistry(
         downloadRemoteExtensions()
         logger.info("Remote extensions directory: ${directory.toAbsolutePath()}")
 
-        val extensionLoader = ExtensionLoader(defineExtensionClassLoader())
+        val defineExtensionClassLoader = ListExtensionClassLoader()
+        val origin = Thread.currentThread().contextClassLoader
+        Thread.currentThread().contextClassLoader = defineExtensionClassLoader
+
+        val extensionLoader = ExtensionLoader(defineExtensionClassLoader)
         val extensions = extensionLoader.loadAllExtensions(directory.toAbsolutePath())
 
         extensions.forEach {
@@ -59,6 +63,7 @@ class ExtensionInformationProviderRegistry(
             logger.info("Provider ${it.key} initialized")
         }
 
+        Thread.currentThread().contextClassLoader = origin
         logger.info("Extension initialization completed")
         logger.info("#################################################")
     }
@@ -71,11 +76,5 @@ class ExtensionInformationProviderRegistry(
             if (!directory.resolve(it.key + ".jar").toFile().exists())
                 RemoteFileDownloader.download(it.value, directory.resolve(it.key + ".jar"))
         }
-    }
-
-    private fun defineExtensionClassLoader(): ListExtensionClassLoader {
-        val extensionsClassLoader = ListExtensionClassLoader()
-        Thread.currentThread().contextClassLoader = extensionsClassLoader
-        return extensionsClassLoader
     }
 }

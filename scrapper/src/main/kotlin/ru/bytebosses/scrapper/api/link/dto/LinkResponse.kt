@@ -4,5 +4,5 @@ import java.net.URI
 
 data class LinkResponse(
     var id: Long,
-    var uri: URI
+    var url: URI
 )

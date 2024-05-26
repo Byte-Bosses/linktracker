@@ -8,9 +8,9 @@ app:
   kafka-topics:
     link-updates: link-updates
   bot:
-    url: http://localhost:8080
+    url: ${BOT_URL:http://localhost:8080}
   sender:
-    type: http
+    type: kafka
 
 spring:
   application:
@@ -18,7 +18,7 @@ spring:
   liquibase:
     enabled: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/scrapper
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/scrapper}
     username: postgres
     password: postgres
   jpa:
@@ -26,12 +26,12 @@ spring:
       ddl-auto: validate
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.add.type.headers: false
-
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
 server:
   port: 8080
 
