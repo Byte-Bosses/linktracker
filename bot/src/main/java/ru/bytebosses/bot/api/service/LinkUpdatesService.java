@@ -1,6 +1,5 @@
 package ru.bytebosses.bot.api.service;
 
-import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
