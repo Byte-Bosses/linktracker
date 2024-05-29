@@ -46,7 +46,7 @@ public class TrackCommand extends CommandHandler {
                 chatId,
                 properties.getProperty("command.track.addURL.fail")
                     .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
-                        : "Внутренняя ошибка сервера")
+                        : properties.getProperty("command.internal.error"))
             );
         }
         return new SendMessage(

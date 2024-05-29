@@ -16,6 +16,8 @@ import ru.bytebosses.bot.models.LinkResponse;
 @Component
 public class UntrackCommand extends CommandHandler {
 
+    private static final String INTERNAL_ERROR_KEY = "command.internal.error";
+
     private final BotService botService;
     private final String delimiter;
 
@@ -62,7 +64,7 @@ public class UntrackCommand extends CommandHandler {
             chatId,
             properties.getProperty("command.untrack.handleCommand.error")
                 .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
-                    : "Внутренняя ошибка сервера")
+                    : properties.getProperty(INTERNAL_ERROR_KEY))
         );
     }
 
@@ -84,7 +86,7 @@ public class UntrackCommand extends CommandHandler {
             chatId,
             properties.getProperty("command.untrack.removeURL.fail")
                 .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
-                    : "Внутренняя ошибка сервера")
+                    : properties.getProperty(INTERNAL_ERROR_KEY))
         );
     }
 

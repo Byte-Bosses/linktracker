@@ -36,7 +36,7 @@ public class StartCommand extends CommandHandler {
             chatId,
             properties.getProperty("command.start.failedRegistration")
                 .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
-                    : "Внутренняя ошибка сервера")
+                    : properties.getProperty("command.internal.error"))
         );
     }
 

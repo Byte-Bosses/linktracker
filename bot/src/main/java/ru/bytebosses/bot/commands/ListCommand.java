@@ -46,7 +46,7 @@ public class ListCommand extends CommandHandler {
             chatId,
             properties.getProperty("command.list.listLinks.fail")
                 .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
-                    : "Внутренняя ошибка сервера")
+                    : properties.getProperty("command.internal.error"))
         );
     }
 
