@@ -61,7 +61,8 @@ public class UntrackCommand extends CommandHandler {
         return new SendMessage(
             chatId,
             properties.getProperty("command.untrack.handleCommand.error")
-                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase() : "")
+                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
+                    : "Внутренняя ошибка сервера")
         );
     }
 
@@ -82,7 +83,8 @@ public class UntrackCommand extends CommandHandler {
         return new SendMessage(
             chatId,
             properties.getProperty("command.untrack.removeURL.fail")
-                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase() : "")
+                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
+                    : "Внутренняя ошибка сервера")
         );
     }
 

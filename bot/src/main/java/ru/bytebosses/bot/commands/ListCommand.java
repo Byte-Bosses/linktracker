@@ -24,7 +24,6 @@ public class ListCommand extends CommandHandler {
         this.botService = botService;
     }
 
-
     @Override
     public SendMessage handleCommand(Update update) {
         long chatId = update.message().chat().id();
@@ -46,10 +45,10 @@ public class ListCommand extends CommandHandler {
         return new SendMessage(
             chatId,
             properties.getProperty("command.list.listLinks.fail")
-                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase() : "")
+                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
+                    : "Внутренняя ошибка сервера")
         );
     }
-
 
     private InlineKeyboardMarkup makeKeyboard(ListLinksResponse response) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
