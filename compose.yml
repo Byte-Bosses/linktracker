@@ -67,6 +67,42 @@ services:
     volumes:
       - kafka1-data:/var/lib/kafka/data
 
+  scrapper:
+    depends_on:
+      - kafka1
+      - postgresql
+      - liquibase-migrations
+    build:
+      context: scrapper
+      dockerfile: scrapper.Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./extensions:/app/extensions
+    environment:
+      BOT_URL: http://bot:8080
+      DATASOURCE_URL: jdbc:postgresql://postgresql:5432/scrapper
+      KAFKA_SERVER: host.docker.internal:29092
+    networks:
+      - backend
+
+  bot:
+    depends_on:
+      - kafka1
+      - postgresql
+      - liquibase-migrations
+    build:
+      context: bot
+      dockerfile: bot.Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      SCRAPPER_URL: http://scrapper:8080
+      KAFKA_URL: host.docker.internal:29092
+      TELEGRAM_TOKEN: UNSET
+    networks:
+      - backend
+
 volumes:
   postgresql-data: { }
   kafka1-data: { }

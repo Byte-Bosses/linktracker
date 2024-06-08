@@ -19,7 +19,7 @@ import ru.bytebosses.bot.api.service.LinkUpdatesService;
 public class KafkaUpdatesListener {
     private final LinkUpdatesService service;
 
-    @KafkaListener(topics = "linkUpdate", groupId = "scrapper")
+    @KafkaListener(topics = "link-updates", groupId = "scrapper")
     @RetryableTopic(attempts = "1", dltStrategy = DltStrategy.FAIL_ON_ERROR, dltTopicSuffix = "_dlq")
     public void updateLinks(LinkUpdate linkUpdate) {
         service.notifyUsers(linkUpdate);

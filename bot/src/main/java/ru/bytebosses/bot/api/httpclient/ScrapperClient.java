@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.bytebosses.bot.api.dto.request.AddLinkRequest;
@@ -53,6 +54,7 @@ import ru.bytebosses.bot.util.RetryFactory;
         var clientResponse =
             webClient.method(HttpMethod.POST)
                 .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
+                .contentType(MediaType.APPLICATION_JSON)
                 .exchangeToMono(response -> {
                     if (response.statusCode().is2xxSuccessful()) {
                         return response.bodyToMono(Void.class);
@@ -78,6 +80,7 @@ import ru.bytebosses.bot.util.RetryFactory;
         var clientResponse =
             webClient.method(HttpMethod.DELETE)
                 .uri(PATH_FOR_CHAT_CONTROLLER + chat.id())
+                .contentType(MediaType.APPLICATION_JSON)
                 .exchangeToMono(response -> {
                     if (response.statusCode().is2xxSuccessful()) {
                         return response.bodyToMono(Void.class);
@@ -103,16 +106,17 @@ import ru.bytebosses.bot.util.RetryFactory;
         var clientResponse =
             webClient.method(HttpMethod.GET)
                 .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
+                .contentType(MediaType.APPLICATION_JSON)
                 .exchangeToMono(response -> {
                     if (response.statusCode().is2xxSuccessful()) {
-                        return response.bodyToMono(ListLinksResponse.class);
+                        return response.bodyToMono(LinkResponse[].class);
                     }
                     return response.bodyToMono(ApiErrorResponse.class);
                 })
                 .onErrorReturn(throwable -> throwable instanceof IllegalStateException, EXHAUSTED_RETRY)
                 .block();
-        if (clientResponse instanceof ListLinksResponse) {
-            return new GenericResponse<>((ListLinksResponse) clientResponse, null);
+        if (clientResponse instanceof LinkResponse[]) {
+            return new GenericResponse<>(new ListLinksResponse(List.of((LinkResponse[]) clientResponse)), null);
         }
         return new GenericResponse<>(null, (ApiErrorResponse) clientResponse);
     }
@@ -131,6 +135,7 @@ import ru.bytebosses.bot.util.RetryFactory;
         var clientResponse =
             webClient.method(HttpMethod.POST)
                 .uri(PATH_FOR_LINKS_CONTROLLER + chat.id())
+                .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(addLinkRequest)
                 .exchangeToMono(response -> {
                     if (response.statusCode().is2xxSuccessful()) {
@@ -161,6 +166,7 @@ import ru.bytebosses.bot.util.RetryFactory;
     ) {
         var clientResponse = webClient.method(HttpMethod.DELETE)
             .uri(PATH_FOR_LINKS_CONTROLLER + chat.id() + "/" + id)
+            .contentType(MediaType.APPLICATION_JSON)
             .exchangeToMono(response -> {
                 if (response.statusCode().is2xxSuccessful()) {
                     return response.bodyToMono(LinkResponse.class);

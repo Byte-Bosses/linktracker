@@ -57,7 +57,7 @@ class DefaultLinkService(
         chat.addLink(linkEntity)
         linkRepository.save(linkEntity)
         chatRepository.save(chat)
-        return LinkResponse(id = linkEntity.id!!, uri = URI.create(linkEntity.url!!))
+        return LinkResponse(id = linkEntity.id!!, url = URI.create(linkEntity.url!!))
     }
 
     override fun removeLink(id: Long, tgChatId: Long): LinkResponse {
