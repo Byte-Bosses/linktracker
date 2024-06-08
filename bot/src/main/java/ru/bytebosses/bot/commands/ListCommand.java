@@ -45,12 +45,10 @@ public class ListCommand extends CommandHandler {
         return new SendMessage(
             chatId,
             properties.getProperty("command.list.listLinks.fail")
-                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase() 
-                           : properties.getProperty("command.internal.error"))
+                .formatted(responseErrorDescription != null ? responseErrorDescription.toLowerCase()
+                    : properties.getProperty("command.internal.error"))
         );
     }
-
-
 
     private InlineKeyboardMarkup makeKeyboard(ListLinksResponse response) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
